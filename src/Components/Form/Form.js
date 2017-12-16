@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Dropdown, Button } from 'semantic-ui-react';
 import { coins, coinOpts } from '../../coins.js';
+import { connect } from 'react-redux';
+import { ADD_TRANSACTION, addTransactionActionCreator } from '../../Actions/handleTransactions';
 
 import './Form.css';
 
@@ -31,7 +33,7 @@ class FormComponent extends Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
   }
 
   componentDidUpdate() {
