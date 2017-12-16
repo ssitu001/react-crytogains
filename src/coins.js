@@ -101,8 +101,9 @@ export const coins = [
   'singulardtv',
 ];
 
-export const coinOpts = coins.reduce((opts, coin) => {
-  const opt = {key: coin.slice(0,1), text: coin, value: coin};
+export const coinOpts = coins.reduce((opts, coin, i) => {
+  const upperCasePrefix = coin.slice(0, 1).toUpperCase() + coin.slice(1); 
+  const opt = {key: i+coin.slice(0,1), text: upperCasePrefix, value: coin};
   opts.push(opt);
   return opts;
 }, []);
