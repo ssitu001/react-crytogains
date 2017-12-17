@@ -4,6 +4,7 @@ import { Grid } from 'semantic-ui-react'
 
 import SegmentComponent from '../Segment/Segment';
 import FormComponent from '../Form/Form';
+import TableView from '../TableView/TableView'
 
 import './App.css';
 
@@ -20,6 +21,7 @@ class App extends Component {
             <SegmentComponent>
               <FormComponent />
             </SegmentComponent>
+            <TableView />
           </Grid.Column>
         </Grid>
       </div>
