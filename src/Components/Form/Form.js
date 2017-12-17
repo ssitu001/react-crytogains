@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Dropdown, Button } from 'semantic-ui-react';
 import { coins, coinOpts } from '../../coins.js';
 import { connect } from 'react-redux';
-import { ADD_TRANSACTION, addTransactionActionCreator } from '../../Actions/handleTransactions';
+import { addTransactionActionCreator } from '../../Actions/handleTransactions';
 
 import './Form.css';
 
@@ -14,9 +14,14 @@ class FormComponent extends Component {
     dateAcquired: '',
   }
 
+  validateSubmission = () => {
+    const { coin, costBasis, quantity } = this.state;
+    return coin.length && costBasis.length && quantity.length;
+  }
+
   handleSubmit = (e) => {
-    //disptatch some action
     e.preventDefault();
+    this.props.addTransaction(this.state);
   };
 
   handleChange = (e) => {
@@ -63,11 +68,12 @@ class FormComponent extends Component {
             />
           </Form.Field>
           <Form.Field width={4}>
-            <label>Cost Basis {this.showRequiredStar('costBasis')}</label>
+            <label>Cost Basis ($) {this.showRequiredStar('costBasis')}</label>
             <Form.Input
+              type='number' 
+              min="1"
               onChange={this.handleChange}
               name='costBasis'
-              // value={'$'} 
               placeholder='$0'/>
           </Form.Field>
           <Form.Field width={4}>
@@ -89,15 +95,24 @@ class FormComponent extends Component {
             />
           </Form.Field>
         </Form.Group>
-        <Form.Field 
-          control={Button}
-          onClick={this.handleSubmit}>
-          Add Transaction
-        </Form.Field>
+        { 
+          this.validateSubmission() 
+          ? <Form.Field 
+              control={Button}
+              onClick={this.handleSubmit}>
+                Add Transaction
+            </Form.Field> 
+          : null 
+        }
       </Form>
     )
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTransaction: (trans) => dispatch(addTransactionActionCreator(trans)),
+  }
+};
 
-export default FormComponent;
+export default connect(null, mapDispatchToProps)(FormComponent);
