@@ -16,8 +16,8 @@ const handleTransaction = (state = {}, action) => {
       const transToAdd = sanitizeTrans(action.payload);
       const coinName = transToAdd.coin
       return (state[coinName])
-        ? {...state, [coinName]: [...state[coinName], transToAdd]}
-        : {...state, [coinName]: [transToAdd]};
+        ? {...state, [coinName]: [...state[coinName], {...transToAdd, id: action.id}]}
+        : {...state, [coinName]: [{...transToAdd, id: action.id}]};
     default:
       return state;
   }
