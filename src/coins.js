@@ -23224,11 +23224,9 @@ const allCoins = [
   }
 ];
 
-const coinNames = allCoins.map((coin) => coin.name);
-
-export const coinOpts = coinNames.reduce((opts, coin, i) => {
+export const coinOpts = allCoins.reduce((opts, coin, i) => {
   // const upperCasePrefix = coin.slice(0, 1).toUpperCase() + coin.slice(1); 
-  const opt = {key: i+coin.slice(0,1), text: coin, value: coin};
+  const opt = {key: i+coin.name.slice(0,1), text: coin.name, value: coin.symbol};
   opts.push(opt);
   return opts;
 }, []);
