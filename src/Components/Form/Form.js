@@ -3,30 +3,48 @@ import { Form, Dropdown, Button } from 'semantic-ui-react';
 import { coins, coinOpts } from '../../coins.js';
 import { connect } from 'react-redux';
 import { addTransactionActionCreator } from '../../Actions/handleTransactions';
+import { getCurrentPriceOfCoin } from '../../Actions/getPrices';
 
 import './Form.css';
 
 class FormComponent extends Component {
   state = {
-    coin: '',
-    costBasis: '',
-    quantity: '',
-    dateAcquired: '',
+    transaction: {
+      coin: '',
+      costBasis: '',
+      quantity: '',
+      dateAcquired: '-',
+    },
+    currentCoins: new Set(),
   }
 
   validateSubmission = () => {
-    const { coin, costBasis, quantity } = this.state;
+    const { coin, costBasis, quantity } = this.state.transaction;
     return coin.length && costBasis.length && quantity.length;
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addTransaction(this.state);
+    const { currentCoins, transaction } = this.state;
+    const { getCurrentPriceOfCoin } = this.props;
+    const currentCoin = transaction.coin;
+
+    this.props.addTransaction(transaction);
+
+    //if coin doesn't exist, get associated price
+    if (!currentCoins.has(currentCoin)) {
+      currentCoins.add(currentCoin)
+      getCurrentPriceOfCoin(currentCoin);
+    }
+    //but no matter what recalculate profits when a transaction is added
   };
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      transaction: {
+        ...this.state.transaction,
+        [e.target.name]: e.target.value,
+      }
     });
   }
 
@@ -34,7 +52,10 @@ class FormComponent extends Component {
     const { name, value } = propsObj;
 
     this.setState({
-      [name]: value,
+      transaction: {
+        ...this.state.transaction,
+        [name]: value,
+      }
     });
   }
 
@@ -46,7 +67,7 @@ class FormComponent extends Component {
   }
 
   showRequiredStar(inputField) {
-    return this.state[inputField].length > 0
+    return this.state.transaction[inputField].length > 0
     ? null
     : <span className="required-field">*</span>;
   };
@@ -112,6 +133,7 @@ class FormComponent extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTransaction: (trans) => dispatch(addTransactionActionCreator(trans)),
+    getCurrentPriceOfCoin: (coin) => dispatch(getCurrentPriceOfCoin(coin)),
   }
 };
 
