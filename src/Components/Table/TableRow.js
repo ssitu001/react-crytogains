@@ -1,17 +1,17 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-const TableRow = () => {
+const TableRow = ({tran}) => {
   return (
     <Table.Row>
-      <Table.Cell></Table.Cell>
-      <Table.Cell>Blank</Table.Cell>
-      <Table.Cell>Blank</Table.Cell>
-      <Table.Cell>Blank</Table.Cell>
-      <Table.Cell>Blank</Table.Cell>
-      <Table.Cell>100%</Table.Cell>
-      <Table.Cell>Edit</Table.Cell>
       <Table.Cell>Delete</Table.Cell>
+      <Table.Cell>{tran.dateAcquired}</Table.Cell>
+      <Table.Cell>{tran.costBasis}</Table.Cell>
+      <Table.Cell>{tran.quantity}</Table.Cell>
+      <Table.Cell>Calc Avg</Table.Cell>
+      <Table.Cell>Calc Profit</Table.Cell>
+      <Table.Cell>Calc Profit%</Table.Cell>
     </Table.Row>
   )
 }
