@@ -5,7 +5,7 @@ import TableRowComponent from './TableRow';
 import FooterComponent from './Footer';
 
 const TableComponent = (props) => {
-  const { coin, trans } = props;
+  const { coin, trans, prices } = props;
   return (
     <div>
     <Header as='h3' dividing>
@@ -28,7 +28,7 @@ const TableComponent = (props) => {
       <Table.Body>
         {
           trans.map((tran) => {
-            return <TableRowComponent key={tran.id} tran={tran}/>
+            return <TableRowComponent key={tran.id} tran={tran} price={prices[coin]}/>
           })
         }
       </Table.Body>

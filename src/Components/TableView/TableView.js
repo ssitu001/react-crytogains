@@ -9,9 +9,9 @@ class TableView extends Component {
     console.log('state', this.props.transactions)
   }
   render() {
-    const { transactions } = this.props;
+    const { transactions, prices } = this.props;
     const tableData = Object.keys(transactions).map((coin) => {
-      return <TableComponent key={coin} coin={coin} trans={transactions[coin]}/>
+      return <TableComponent key={coin} coin={coin} trans={transactions[coin]} prices={prices}/>
     });
     
     return (
@@ -29,6 +29,7 @@ class TableView extends Component {
 const mapStateToProps = (state) => {
   return {
     transactions: state.handleTransaction,
+    prices: state.getPrices,
   };
 }
 
